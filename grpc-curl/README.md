@@ -138,7 +138,7 @@ grpcurl --plaintext -d '{"Base": "GBP", "Destination": "USD"}' localhost:9092 Cu
 It is also possible to read the data from stdin.
 
 ```shell
-grpcurl --plaintext -d@  localhost:9092 Currency/GetRate <<EOM
+grpcurl --plaintext -d @  localhost:9092 Currency/GetRate <<EOM
 {
   "Base": "GBP", 
   "Destination": "USD"
