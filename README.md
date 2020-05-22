@@ -5,5 +5,5 @@ Checkout my YouTube channel at [https://www.youtube.com/c/nicjackson](https://ww
 
 ## Examples
 
-### Interacting with gRPC services using gRPCurl [./grpcurl](./grpcurl)
+### Interacting with gRPC services using gRPCurl [./grpc-curl](./grpcurl)
 See how to use the excellent gRPCurl tool to interact with gRPC services.
