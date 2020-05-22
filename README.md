@@ -1,4 +1,4 @@
-# all-things-microservices
+# All Things Microservices
 Monorepo for All Things Microservices YouTube Series
 
 Checkout my YouTube channel at [https://www.youtube.com/c/nicjackson](https://www.youtube.com/c/nicjackson)
