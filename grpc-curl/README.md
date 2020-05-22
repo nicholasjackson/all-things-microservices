@@ -145,3 +145,50 @@ grpcurl --plaintext -d @  localhost:9092 Currency/GetRate <<EOM
 }
 EOM
 ```
+
+### Execute a bi-directional streaming request
+
+The SubscribeRates service is a bi-directional streaming API, the following example will send a single
+message then block while receiving messages from the server.
+
+```shell
+grpcurl --plaintext -d @  localhost:9092 Currency/GetRate <<EOM
+{
+  "Base": "GBP", 
+  "Destination": "USD"
+}
+EOM
+```
+
+Client logs:
+
+```
+{
+  "rate": 12.12
+}
+{
+  "rate": 12.12
+}
+{
+  "rate": 12.12
+}
+```
+
+Server Logs:
+```shell
+2020-05-22T21:20:07.572+0100 [INFO]  Starting service on 0.0.0.0:9092
+2020-05-22T21:20:12.053+0100 [INFO]  SubscribeRates called
+2020-05-22T21:20:12.053+0100 [INFO]  Send message to client
+2020-05-22T21:20:12.053+0100 [INFO]  New message from client: base=EUR dest=EUR
+2020-05-22T21:20:12.053+0100 [ERROR] Client write closed
+2020-05-22T21:20:13.053+0100 [INFO]  Send message to client
+2020-05-22T21:20:14.054+0100 [INFO]  Send message to client
+```
+
+To keep the client stream open you can use the same call as previous but this time ommit the message.
+
+```
+grpcurl --plaintext -d @  localhost:9092 Currency/GetRate
+```
+
+You can then paste the message payload to stdin and gRPCurl will send it to the server.

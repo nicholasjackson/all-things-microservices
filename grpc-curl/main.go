@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"net"
 	"os"
 	"time"
@@ -56,22 +57,34 @@ func (c *CurrencyServer) GetRate(ctx context.Context, rr *service.RateRequest) (
 func (c *CurrencyServer) SubscribeRates(sub service.Currency_SubscribeRatesServer) error {
 	log.Info("SubscribeRates called")
 
+	// read client messages
 	go func() {
 		for {
 			rr, err := sub.Recv()
-			if err != nil {
+			if err == io.EOF {
+				log.Error("Client write closed")
+				break
+			}
+
+			if err != nil && err != io.EOF {
 				log.Error("Error reading from client", "error", err)
+				break
 			}
 
 			log.Info("New message from client", "base", rr.GetBase().String(), "dest", rr.GetDestination().String())
 		}
 	}()
 
+	// send a message to the client every second
 	for {
 		log.Info("Send message to client")
 		time.Sleep(1 * time.Second)
 
-		sub.Send(&service.RateResponse{Rate: 12.12})
+		err := sub.Send(&service.RateResponse{Rate: 12.12})
+		if err != nil {
+			log.Error("Error sending to client", "error", err)
+			break
+		}
 	}
 
 	return nil
