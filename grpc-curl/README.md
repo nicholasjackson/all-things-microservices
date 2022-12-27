@@ -3,6 +3,17 @@ This example shows how you can use gRPCurl to interact with gRPC servers.
 
 For full details on gRPCurl please see the offical website [https://github.com/fullstorydev/grpcurl](https://github.com/fullstorydev/grpcurl)
 
+## Build using Docker
+Build the container  
+```shell
+docker build --platform linux/amd64 -f Dockerfile -t grpc_server .
+```
+
+Run it  
+```shell
+docker run --name grpc_server --platform linux/amd64 -d grpc_server
+```
+
 ## Building protos for the example application
 To build the gRPC client and server interfaces, first install protoc:
 
